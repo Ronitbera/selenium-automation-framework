@@ -15,19 +15,26 @@ class CartPage(BasePage):
         elements = self.driver.find_elements(*self.CART_ITEM_NAMES)
         return [element.text for element in elements]
 
-    def remove_product(self, product_name):
-        product = self.wait.until(
-            lambda driver: driver.find_element(
-                By.XPATH,
-                f"//div[contains(@class,'cart_item')]"
-                f"[.//div[contains(@class,'inventory_item_name') "
-                f"and normalize-space()='{product_name}']]"
-            )
+def remove_product(self, product_name):
+    product = self.wait.until(
+        lambda driver: driver.find_element(
+            By.XPATH,
+            f"//div[contains(@class,'cart_item')]"
+            f"[.//div[contains(@class,'inventory_item_name') "
+            f"and normalize-space()='{product_name}']]"
         )
+    )
 
-        product.find_element(
-            By.TAG_NAME, "button"
-        ).click()
+    product.find_element(By.TAG_NAME, "button").click()
 
+    self.wait.until(
+        lambda driver: not driver.find_elements(
+            By.XPATH,
+            f"//div[contains(@class,'cart_item')]"
+            f"[.//div[contains(@class,'inventory_item_name') "
+            f"and normalize-space()='{product_name}']]"
+        )
+    )
+    
     def click_checkout(self):
         self.click(self.CHECKOUT_BUTTON)
