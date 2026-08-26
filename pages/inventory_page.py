@@ -35,5 +35,11 @@ def add_product_to_cart(self, product_name):
         lambda driver: button.text == "Remove"
     )
 
-    def open_cart(self):
-        self.click(self.CART_LINK)
+def open_cart(self):
+    self.wait.until(
+        lambda driver: driver.find_element(*self.CART_LINK).is_displayed()
+    ).click()
+
+    self.wait.until(
+        lambda driver: driver.current_url.endswith("/cart.html")
+    )
