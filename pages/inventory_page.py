@@ -20,17 +20,20 @@ class InventoryPage(BasePage):
     def get_product_count(self):
         return len(self.driver.find_elements(*self.PRODUCT_ITEMS))
 
-    def add_product_to_cart(self, product_name):
-        product = self.wait.until(
-            lambda driver: driver.find_element(
-                By.XPATH,
-                f"//div[contains(@class,'inventory_item')][.//div[contains(@class,'inventory_item_name') and normalize-space()='{product_name}']]"
-            )
+def add_product_to_cart(self, product_name):
+    product = self.wait.until(
+        lambda driver: driver.find_element(
+            By.XPATH,
+            f"//div[contains(@class,'inventory_item')][.//div[contains(@class,'inventory_item_name') and normalize-space()='{product_name}']]"
         )
+    )
 
-        product.find_element(
-            By.TAG_NAME, "button"
-        ).click()
+    button = product.find_element(By.TAG_NAME, "button")
+    button.click()
+
+    self.wait.until(
+        lambda driver: button.text == "Remove"
+    )
 
     def open_cart(self):
         self.click(self.CART_LINK)
