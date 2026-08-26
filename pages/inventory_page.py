@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
 
-class InventoryPage:
+class InventoryPage(BasePage):
 
     INVENTORY_CONTAINER = (By.ID, "inventory_container")
     PRODUCT_ITEMS = (By.CLASS_NAME, "inventory_item")
